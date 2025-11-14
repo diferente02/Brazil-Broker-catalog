@@ -1,0 +1,102 @@
+[
+    {
+        "id": "acf12ff808b40a38",
+        "type": "tab",
+        "label": "brazil api corretoras ",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "48baac630d851ba5",
+        "type": "http request",
+        "z": "acf12ff808b40a38",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://brasilapi.com.br/api/cvm/corretoras/v1",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 320,
+        "y": 140,
+        "wires": [
+            [
+                "4ea07a99cff7f468"
+            ]
+        ]
+    },
+    {
+        "id": "4ea07a99cff7f468",
+        "type": "function",
+        "z": "acf12ff808b40a38",
+        "name": "function ",
+        "func": "function Espaco(str, tamanho){\n  // function responsible for calculating and adding the number of spaces until it reaches the specified value\n    return str + \" \".repeat(Math.max(0,tamanho-str.length));\n}\n\nlet brokersArray = msg.payload;\nbrokersArray = JSON.parse(brokersArray);\n\n// Finds the length of the longest nome_social\n\nlet nameMaxLength = Math.max(...brokersArray.map(item => item.nome_social.length));\n\n// Finds the length of the longest city\nlet cityMaxLength = Math.max(...brokersArray.map(item => item.municipio.length));\n\n// Extracting only the social name, municipality, and CNPJ of each brokerage firm\nlet formattedList = brokersArray.map(item => {\n  let paddedName = Espaco(item.nome_social, nameMaxLength);  //função que adiciona os espaços pro nome ficar alinhado\n  let paddedMunicipality = Espaco(item.municipio,cityMaxLength);\n  return `<li>${paddedName}  -  ${paddedMunicipality}  /  ${item.cnpj} </li>`;\n}).join(\"\");\n\n//msg.payload = htmlLista;\nmsg.payload = formattedList;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 180,
+        "wires": [
+            [
+                "ca33ec4c4ba6287d"
+            ]
+        ]
+    },
+    {
+        "id": "f3b47e6826691336",
+        "type": "http in",
+        "z": "acf12ff808b40a38",
+        "name": "",
+        "url": "/Corretoras",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "48baac630d851ba5"
+            ]
+        ]
+    },
+    {
+        "id": "ca33ec4c4ba6287d",
+        "type": "template",
+        "z": "acf12ff808b40a38",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n  <head>\n    <title>Catalogo de corretoras</title>\n    <style>\n      body {font-family:Arial, sans-serif; padding:20px; background-color:#f2f2f2;}\n      h1 {color: #007acc;}\n      ul { list-style-type:none; padding:0;}\n      li {margin: 5px 50px; padding: 5px; background-color:white; border-radius:4px;}\n      .titulo{\n        display: flex;\n        justify-content: center;\n      }\n    </style>\n  </head>\n  <body>\n    <div class=titulo>\n      <h1>CATÁLOGO DE CORRETORAS</h1>\n    </div>\n\n    <ul style=\"white-space: pre; font-family: monospace;\"> \n      <li>\n        <strong>CORRETORA                                                                                  -  MUNICÍPIO              /   CNPJ </strong>\n        </li>\n    {{{payload}}}<!-- 3 curly braces to render HTML from the payload }} -->\n    </ul>\n\n  </body>\n</html>",
+        "output": "str",
+        "x": 680,
+        "y": 240,
+        "wires": [
+            [
+                "193519c7edbd83e7"
+            ]
+        ]
+    },
+    {
+        "id": "193519c7edbd83e7",
+        "type": "http response",
+        "z": "acf12ff808b40a38",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 280,
+        "wires": []
+    }
+]
