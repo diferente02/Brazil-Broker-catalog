@@ -1,19 +1,16 @@
 # Brazil-Broker-catalog
-  A simple webpage that lists all brokers provided by BrazilAPI
-
-# Broker-Catalog
+A simple webpage that lists all brokers provided by BrazilAPI.
 This project consists of an API built with Node-RED, responsible for making a request to the following endpoint:
 
 https://brasilapi.com.br/api/cvm/corretoras/v1
 
 From each broker, the API extracts:
-- nom_social(corporate name)
-- municipio(city)
-- CNPJ(Brazilian company ID)
+- nome_social (corporate name)
+- municipio (city)
+- CNPJ (Brazilian company ID)
 
 The API then displays this information on a dynamically generated HTML page.
 <img src="images/template html api.png" alt="site gerado pela API">
-
 
 # NODE-RED
 
@@ -43,9 +40,7 @@ node-red
 ```
 Then open the editor in your browser:
 http://localhost:1880
-
 or
-
 http://127.0.0.1:1880/
 
 ### Importação do fluxo
@@ -77,22 +72,28 @@ https://brasilapi.com.br/api/cvm/corretoras/v1
 Processes the incoming payload, extracts the desired fields, and formats the HTML list.
 
 ```Javascript
-let corretoras = msg.payload;
-corretoras = JSON.parse(corretoras);
+function space(str, tamanho){
+  // function responsible for calculating and adding the number of spaces until it reaches the specified value
+    return str + " ".repeat(Math.max(0,tamanho-str.length));
+}
 
-// Extraindo apenas o nome social, municipio e o cnpj de cada corretora
-let listaFormatada = corretoras.map(item => {
-   return `${item.nome_social}  -  ${item.municipio}  /  ${item.cnpj}`;
-});
+let brokersArray = msg.payload;
+brokersArray = JSON.parse(brokersArray);
 
-// Formatando a mensagem como lista 
-let htmlLista = "<ul>";
-listaFormatada.forEach(item =>{
-   htmlLista += `<li>${item}</li>`;
-});
-htmlLista += "</ul>";
+// Finds the length of the longest nome_social
+let nameMaxLength = Math.max(...brokersArray.map(item => item.nome_social.length));
 
-msg.payload = htmlLista;
+// Finds the length of the longest city
+let cityMaxLength = Math.max(...brokersArray.map(item => item.municipio.length));
+
+// Extracting only the social name, municipality, and CNPJ of each brokerage firm
+let formattedList = brokersArray.map(item => {
+  let paddedName = space(item.nome_social, nameMaxLength);  // function that adds spaces so the name stays aligned
+  let paddedMunicipality = space(item.municipio,cityMaxLength);
+  return `<li>${paddedName}  -  ${paddedMunicipality}  /  ${item.cnpj} </li>`;
+}).join("");
+
+msg.payload = formattedList;
 return msg;
 ```
 
@@ -107,11 +108,24 @@ Generates the final HTML page using the payload content.
       h1 {color: #007acc;}
       ul { list-style-type:none; padding:0;}
       li {margin: 5px 50px; padding: 5px; background-color:white; border-radius:4px;}
+      .titulo{
+        display: flex;
+        justify-content: center;
+      }
     </style>
   </head>
   <body>
-    <h1>Lista de corretoras</h1>
-    <p>{{{payload}}}</p> {{!-- 3 chaves para renderizar HTML vindo do payload --}}
+    <div class=titulo>
+      <h1>CATÁLOGO DE CORRETORAS</h1>
+    </div>
+
+    <ul style="white-space: pre; font-family: monospace;"> 
+      <li>
+        <strong>CORRETORA                                                                                  -  MUNICÍPIO              /   CNPJ </strong>
+        </li>
+    {{{payload}}}<!-- 3 curly braces to render HTML from the payload }} -->
+    </ul>
+
   </body>
 </html>
 ```
