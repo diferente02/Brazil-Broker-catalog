@@ -10,7 +10,9 @@ From each broker, the API extracts:
 - CNPJ (Brazilian company ID)
 
 The API then displays this information on a dynamically generated HTML page.
-<img src="images/template html api.png" alt="site gerado pela API">
+
+<img width="1323" height="607" alt="Image" src="https://github.com/user-attachments/assets/01d63c47-dd1c-4957-bb56-32381003e9d4" />
+
 
 # NODE-RED
 
@@ -43,20 +45,27 @@ http://localhost:1880
 or
 http://127.0.0.1:1880/
 
-### Importação do fluxo
+### Importing the flow
  
+In the top-right corner of the screen, click the menu button (☰).
 
-<img src="images/Importacao_Tres_barrinhas.png" alt="Imagem 1" width="150">
-<img src="images/Importacao.png" alt="Imagem 2" width="150">
-<img src="images/Importacao_Arquivo.png" alt="Imagem 3" width="150">
+Select Import from the dropdown menu.
 
+A text window will appear. Paste the JSON of your flow into this window.
+
+Click Import to load the flow into your workspace.
+
+Position the nodes as needed and then click Deploy to apply the changes.
 
 ## 🧩 Flow Structure
 The flow is divided into 5 main nodes
 
-<img src="images/Fluxo.png" alt="Tutorial de como importar o fluxo, imagem 1">
+<img width="923" height="294" alt=" the 5 nos of the flow" src="https://github.com/user-attachments/assets/c9addc78-01de-4131-8c87-f0ad3879b391" />
+
 
 ### HTTP In
+<img width="315" height="45" alt="Image" src="https://github.com/user-attachments/assets/be7c9732-2860-49f7-a6cd-58c9116d562e" />
+
 Creates a simple web service.
 
 Endpoint:
@@ -64,11 +73,17 @@ http://localhost:1880/Brazil_Broker_API
 write this link in your browse to the see the webpage.
 
 ###  HTTP request
+
+<img width="251" height="45" alt="Image" src="https://github.com/user-attachments/assets/f27f6d11-1110-491a-84b2-ba8cc895c491" />
+
 Makes the HTTP call to the BrazilAPI endpoint:
 
 https://brasilapi.com.br/api/cvm/corretoras/v1
 
 ### FUNCTION
+
+<img width="150" height="45" alt="Image" src="https://github.com/user-attachments/assets/5ebcdfda-b1b3-4959-94d0-4247d706cfb7" />
+
 Processes the incoming payload, extracts the desired fields, and formats the HTML list.
 
 ```Javascript
@@ -98,6 +113,9 @@ return msg;
 ```
 
 ### TEMPLATE
+
+<img width="150" height="45" alt="Image" src="https://github.com/user-attachments/assets/1c662e9c-4106-4792-94b8-6f757ea6b9e4" />
+
 Generates the final HTML page using the payload content.
 ```html
 <html>
@@ -131,4 +149,7 @@ Generates the final HTML page using the payload content.
 ```
 
 ### HTTP RESPONSE
+
+<img width="283" height="90" alt="Image" src="https://github.com/user-attachments/assets/b548d1ca-9095-4f7d-9f3a-73fb49779ef9" />
+
 Sends the final HTML response back to the client that accessed the endpoint.
