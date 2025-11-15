@@ -1,10 +1,6 @@
-# Brazil-Broker-catalog
-A simple webpage that lists all brokers provided by BrazilAPI.
+# Brazil-Broker-catalog [![platform](https://img.shields.io/badge/plataform-Node--RED-red)](https://nodered.org)
 This project consists of an API built with Node-RED, responsible for making a request to the following endpoint:
-
-https://brasilapi.com.br/api/cvm/corretoras/v1
-
-From each broker, the API extracts:
+https://brasilapi.com.br/api/cvm/corretoras/v1 and show a simple webpage that lists all brokers provided by BrazilAPI.From each broker, the API extracts:
 - nome_social (corporate name)
 - municipio (city)
 - CNPJ (Brazilian company ID)
@@ -13,21 +9,17 @@ The API then displays this information on a dynamically generated HTML page.
 
 <img width="1323" height="607" alt="Image" src="https://github.com/user-attachments/assets/01d63c47-dd1c-4957-bb56-32381003e9d4" />
 
-
-# NODE-RED
-
-This project uses NODE-RED, a powerful low-code tool for visually building automation flows.
-
 ## 🚀 Installation
-### Install Node.js
+1. Install Node.js
 Download it from the official website:
-[Nodejs.org](https://nodejs.org/en)
+[Nodejs](https://nodejs.org/en)
 
-After installation, verify the version:
-```bash
-node --version
-```
-### Install Node-RED
+   you can check the version using the command
+  ```bash
+  node --version
+  ```
+2.Install Node-RED
+
 With Node.js installed, run:
 
 ```bash
@@ -35,27 +27,27 @@ npm install -g --unsafe-perm node-red
 ```
 
 ## Usage
-### Start Node-Red
-In the terminal:
-```bash
-node-red
-```
-Then open the editor in your browser:
-http://localhost:1880
-or
-http://127.0.0.1:1880/
+1.Start Node-Red
+  In the terminal:
+  ```bash
+  node-red
+  ```
+2.Then open the editor in your browser:
+  http://localhost:1880
+  or
+  http://127.0.0.1:1880/
 
-### Importing the flow
+3.Importing the flow
  
-In the top-right corner of the screen, click the menu button (☰).
-
-Select Import from the dropdown menu.
-
-A text window will appear. Paste the JSON of your flow into this window.
-
-Click Import to load the flow into your workspace.
-
-Position the nodes as needed and then click Deploy to apply the changes.
+   &nbsp;&nbsp;&nbsp;&nbsp;3.1. In the top-right corner of the screen, click the menu button (☰).
+   
+   &nbsp;&nbsp;&nbsp;&nbsp;3.2. Select Import from the dropdown menu.
+   
+   &nbsp;&nbsp;&nbsp;&nbsp;3.3. A text window will appear. Paste the JSON that you did make the download.
+   
+   &nbsp;&nbsp;&nbsp;&nbsp;3.4. Click Import to load the flow into your workspace.
+   
+   &nbsp;&nbsp;&nbsp;&nbsp;3.5. Position the nodes as needed and then click Deploy to apply the changes.
 
 ## 🧩 Flow Structure
 The flow is divided into 5 main nodes
@@ -63,28 +55,50 @@ The flow is divided into 5 main nodes
 <img width="923" height="294" alt=" the 5 nos of the flow" src="https://github.com/user-attachments/assets/c9addc78-01de-4131-8c87-f0ad3879b391" />
 
 
-### HTTP In
+### HTTP In 
 <img width="315" height="45" alt="Image" src="https://github.com/user-attachments/assets/be7c9732-2860-49f7-a6cd-58c9116d562e" />
 
 Creates a simple web service.
 
-Endpoint:
-http://localhost:1880/Brazil_Broker_API
-write this link in your browse to the see the webpage.
+to the see the webpage write this link in your browse: http://localhost:1880/Brazil_Broker_API
+ 
 
-###  HTTP request
-
+###  HTTP request 
 <img width="251" height="45" alt="Image" src="https://github.com/user-attachments/assets/f27f6d11-1110-491a-84b2-ba8cc895c491" />
 
 Makes the HTTP call to the BrazilAPI endpoint:
 
 https://brasilapi.com.br/api/cvm/corretoras/v1
 
-### FUNCTION
+that return:
+```
+{
+    "cnpj": "76621457000185",
+    "type": "CORRETORAS",
+    "nome_social": "4UM DTVM S.A.",
+    "nome_comercial": "4UM INVESTIMENTOS",
+    "status": "CANCELADA",
+    "email": "controle@4um.com.br",
+    "telefone": "33519966",
+    "cep": "80420210",
+    "pais": "BRASIL",
+    "uf": "PR",
+    "municipio": "CURITIBA",
+    "bairro": "CENTRO",
+    "complemento": "4º ANDAR",
+    "logradouro": "R. VISCONDE DO RIO BRANCO 1488",
+    "data_patrimonio_liquido": "2005-12-31",
+    "valor_patrimonio_liquido": "4228660.18",
+    "codigo_cvm": "2275",
+    "data_inicio_situacao": "2006-10-05",
+    "data_registro": "1968-01-15"
+  },
+```
 
+### FUNCTION 
 <img width="150" height="45" alt="Image" src="https://github.com/user-attachments/assets/5ebcdfda-b1b3-4959-94d0-4247d706cfb7" />
 
-Processes the incoming payload, extracts the desired fields, and formats the HTML list.
+Processes the incoming payload, extracts the fields: "nome_social", "municipio", "CNPJ" and formats the HTML list.
 
 ```Javascript
 function space(str, tamanho){
@@ -112,8 +126,7 @@ msg.payload = formattedList;
 return msg;
 ```
 
-### TEMPLATE
-
+### TEMPLATE 
 <img width="150" height="45" alt="Image" src="https://github.com/user-attachments/assets/1c662e9c-4106-4792-94b8-6f757ea6b9e4" />
 
 Generates the final HTML page using the payload content.
@@ -148,8 +161,7 @@ Generates the final HTML page using the payload content.
 </html>
 ```
 
-### HTTP RESPONSE
-
+### HTTP RESPONSE 
 <img width="283" height="90" alt="Image" src="https://github.com/user-attachments/assets/b548d1ca-9095-4f7d-9f3a-73fb49779ef9" />
 
-Sends the final HTML response back to the client that accessed the endpoint.
+Sends the final HTML response back to the client that accessed.
