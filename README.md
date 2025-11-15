@@ -9,6 +9,10 @@ The API then displays this information on a dynamically generated HTML page.
 
 <img width="1323" height="607" alt="Image" src="https://github.com/user-attachments/assets/01d63c47-dd1c-4957-bb56-32381003e9d4" />
 
+## Table of Contents
+
+- [Installation](#installation)
+
 ## 🚀 Installation
 1. Install Node.js
 Download it from the official website:
