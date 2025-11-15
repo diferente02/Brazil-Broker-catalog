@@ -13,7 +13,7 @@ The API then displays this information on a dynamically generated HTML page.
 
 - [Installation](#installation)
 
-## 🚀 Installation
+## Installation
 1. Install Node.js
 Download it from the official website:
 [Nodejs](https://nodejs.org/en)
