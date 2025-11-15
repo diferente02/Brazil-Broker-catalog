@@ -12,6 +12,13 @@ The API then displays this information on a dynamically generated HTML page.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Usage](#Usage)
+- [Flow Structure](#Flow-Structure)
+- [HTTP In](#HTTP-In)
+- [HTTP request](#HTTP-request)
+- [FUNCTION](#FUNCTION)
+- [TEMPLATE](#TEMPLATE)
+- [HTTP RESPONSE](#HTTP-RESPONSE)
 
 ## Installation
 1. Install Node.js
@@ -53,7 +60,7 @@ npm install -g --unsafe-perm node-red
    
    &nbsp;&nbsp;&nbsp;&nbsp;3.5. Position the nodes as needed and then click Deploy to apply the changes.
 
-## 🧩 Flow Structure
+## Flow Structure
 The flow is divided into 5 main nodes
 
 <img width="923" height="294" alt=" the 5 nos of the flow" src="https://github.com/user-attachments/assets/c9addc78-01de-4131-8c87-f0ad3879b391" />
